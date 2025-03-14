@@ -1,0 +1,6 @@
+@NutriSync.API_HostAddress = http://localhost:5226
+
+GET {{NutriSync.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

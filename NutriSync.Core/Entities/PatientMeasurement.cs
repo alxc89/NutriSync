@@ -11,4 +11,3 @@ public class PatientMeasurement : Entity
     public decimal HipCm { get; set; }
     public decimal Bmi { get; set; }
 }
-
