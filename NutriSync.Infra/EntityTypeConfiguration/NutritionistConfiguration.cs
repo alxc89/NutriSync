@@ -57,7 +57,7 @@ public class NutritionistConfiguration : IEntityTypeConfiguration<Nutritionist>
         });
 
         builder.HasOne(n => n.User)
-                .WithOne()
+                .WithOne(n => n.Nutritionist)
                 .HasForeignKey<Nutritionist>(n => n.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 

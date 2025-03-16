@@ -1,4 +1,4 @@
-﻿namespace NutriSync.Application.DTOs.Common;
+﻿namespace NutriSync.Application.DTOs.Shared;
 
 public class AddressDto
 {

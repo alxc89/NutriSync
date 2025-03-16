@@ -1,4 +1,4 @@
-﻿using NutriSync.Application.DTOs.Common;
+﻿using NutriSync.Application.DTOs.Shared;
 using NutriSync.Core.Enums;
 using System.ComponentModel.DataAnnotations;
 
@@ -19,5 +19,5 @@ public class CreateNutritionistDto
     public DateTime BirthDate { get; set; }
     public Gender Gender { get; set; }
 
-    public AddressDto Address { get; set; } = null!;
+    public AddressDto? Address { get; set; } = new();
 }

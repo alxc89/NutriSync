@@ -51,7 +51,7 @@ public class Nutritionist : Entity
 
     public Address Address { get; set; } = null!;
 
-    public Guid UserId { get; set; } // Relaciona com a tabela de usuários
+    public Guid? UserId { get; set; } = null; // Relaciona com a tabela de usuários
     public UserBase User { get; set; } = null!;
 
     public ICollection<MealPlan> MealPlans { get; set; } = [];

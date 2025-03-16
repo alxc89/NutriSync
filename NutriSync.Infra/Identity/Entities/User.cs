@@ -5,6 +5,11 @@ namespace NutriSync.Infra.Identity.Entities;
 
 public class User : IdentityUser<Guid>
 {
+    public User()
+    {
+
+    }
+
     public User(string userName, string userEmail)
     {
         Id = Guid.NewGuid();
@@ -14,8 +19,6 @@ public class User : IdentityUser<Guid>
         TemporaryPassword = "123@nutriSync";
     }
 
-    public Nutritionist? Nutritionist { get; set; }
-    public Patient? Patient { get; set; }
     public string TemporaryPassword { get; set; }
 
     protected string GenerateTemporaryPassword(int length = 12)

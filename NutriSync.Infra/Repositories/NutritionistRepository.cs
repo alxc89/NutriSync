@@ -30,9 +30,18 @@ public class NutritionistRepository(DataContext context) : INutritionistReposito
         throw new NotImplementedException();
     }
 
-    public Task<bool> AnyNutricionistAsync(string crn)
+    public async Task<bool> AnyNutricionistAsync(string crn)
     {
-        throw new NotImplementedException();
+        try
+        {
+            return await _context
+                .Nutritionists
+                .AnyAsync(n => n.Crn.Equals(crn));
+        }
+        catch (Exception)
+        {
+            throw new Exception("Erro interno!");
+        }
     }
 
     public Task DeleteAsync(long id)

@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using NutriSync.Core.Entities;
-using NutriSync.Core.Interfaces;
+using NutriSync.Infra.Identity.Entities;
 using System.Reflection;
 
 namespace NutriSync.Infra.Context;
 
-public class DataContext : IdentityDbContext<IdentityUser>
+public class DataContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
 {
     public DataContext(DbContextOptions<DataContext> options) : base(options)
     {
- 
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

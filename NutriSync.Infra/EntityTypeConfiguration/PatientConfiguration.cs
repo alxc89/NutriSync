@@ -56,8 +56,8 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
         builder
             .HasOne(u => u.User)
             .WithOne(p => p.Patient)
-            .OnDelete(DeleteBehavior.Cascade)
-            .HasForeignKey<Patient>(p => p.UserId);
+            .HasForeignKey<Patient>(p => p.UserId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(p => p.MealPlans)
             .WithOne(p => p.Patient)
@@ -80,7 +80,7 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
         #endregion
 
         #region check constraint
-        builder.ToTable(p => p.HasCheckConstraint("CK_Patients_Document", "LENGTH(Document) > 0"));
+        //builder.ToTable(p => p.HasCheckConstraint("CK_Patients_Document", "LENGTH(Document) > 0"));
         #endregion
     }
 }

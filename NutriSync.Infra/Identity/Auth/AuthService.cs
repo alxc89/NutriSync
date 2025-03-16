@@ -19,7 +19,7 @@ public class AuthService(UserManager<User> userManager, INutritionistRepository 
 
     public async Task<bool> RegisterAsync(string email, string password)
     {
-        var user = new IdentityUser { UserName = email, Email = email };
+        var user = new User(email, email);
         var result = await _userManager.CreateAsync(user, password);
 
         if (result.Succeeded)
@@ -37,23 +37,12 @@ public class AuthService(UserManager<User> userManager, INutritionistRepository 
 
         var userRoles = await _userManager.GetRolesAsync(user);
 
-        var claims = new List<Claim>
-        {
-            new(ClaimTypes.NameIdentifier, user.Id),
-            new(ClaimTypes.Email, user.Email!),
-            new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-        };
-
-        if (userRoles.Any())
-            claims.AddRange(userRoles.Select(role => new Claim(ClaimTypes.Role, role)));
-
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
             _jwtSettings.Issuer,
             _jwtSettings.Audience,
-            claims,
             expires: DateTime.UtcNow.AddHours(_jwtSettings.ExpirationHours),
             signingCredentials: creds
         );
