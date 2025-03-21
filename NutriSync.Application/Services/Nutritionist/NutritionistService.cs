@@ -2,40 +2,43 @@
 using NutriSync.Application.DTOs.Nutritionist;
 using NutriSync.Application.Mappers;
 using NutriSync.Application.ModelViews.Nutritionist;
-using NutriSync.Application.Services.Order;
 using NutriSync.Application.Shared;
+using NutriSync.Core.Interfaces;
 using NutriSync.Core.Interfaces.Repositories;
 
 namespace NutriSync.Application.Services.Nutritionist;
 
-public class NutritionistService(INutritionistRepository repository, IOrderService orderService, ILogger<NutritionistService> logger) : INutritionistService
+public class NutritionistService(INutritionistRepository repository, IAuthService authService, ILogger<NutritionistService> logger) : INutritionistService
 {
     private readonly INutritionistRepository _repository = repository;
     private readonly ILogger<NutritionistService> _logger = logger;
-    private readonly IOrderService _orderService = orderService;
+    private readonly IAuthService _authService = authService;
 
-    public async Task<ServiceResponse<NutritionistView>> CreateNutritionistAsync(CreateNutritionistDto createNutritionistDto)
+    public async Task<ServiceResponse<bool>> CreateNutritionistAsync(CreateNutritionistDto createNutritionistDto)
     {
         var existsNutritionist = await _repository.AnyNutricionistAsync(createNutritionistDto.Crn);
         if (existsNutritionist)
-            return ServiceResponseHelper.Error<NutritionistView>(409, "CRN já cadastrado, verifique!");
+            return ServiceResponseHelper.Error<bool>(409, "CRN já cadastrado, verifique!");
+
+        var userCreated = await _authService
+                .CreateUserFromNutritionistAsync(createNutritionistDto.Email, createNutritionistDto.Password);
+        if (userCreated == Guid.Empty)
+            return ServiceResponseHelper.Error<bool>(500, "Erro ao salvar nutricionista!");
 
         var nutritionist = createNutritionistDto.ToEntity();
 
         try
         {
             var nutritionistCreated = await _repository.SaveAsync(nutritionist);
+            if (!nutritionistCreated)
+                return ServiceResponseHelper.Error<bool>(500, "Erro ao salvar nutricionista!");
 
-            // Criar uma ordem de assinatura para o nutricionista
-            var idOrder = await _orderService.CreateOrderAsync(nutritionistCreated.Id);
-            NutritionistView nutritionistView = nutritionistCreated.ToView();
-
-            return ServiceResponseHelper.Success(201, "Cadastro efetuado com sucesso!", nutritionistView);
+            return ServiceResponseHelper.Success(201, "Cadastro efetuado com sucesso!", true);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erro ao criar nutricionista: {Message}", ex.Message);
-            return ServiceResponseHelper.Error<NutritionistView>(500, "Erro interno no servidor.");
+            return ServiceResponseHelper.Error<bool>(500, "Erro interno no servidor.");
         }
     }
 

@@ -10,16 +10,24 @@ public class User : IdentityUser<Guid>
 
     }
 
-    public User(string userName, string userEmail)
+    public User(string userEmail)
     {
         Id = Guid.NewGuid();
-        UserName = userName;
         Email = userEmail;
-        //TemporaryPassword = GenerateTemporaryPassword();
-        TemporaryPassword = "123@nutriSync";
+        UserName = userEmail;
+        TenantiId = userEmail;
     }
 
-    public string TemporaryPassword { get; set; }
+    public User(string userEmail, string tenantId)
+    {
+        Id = Guid.NewGuid();
+        Email = userEmail;
+        TemporaryPassword = "123@nutriSync";
+        TenantiId = tenantId;
+    }
+
+    public string TemporaryPassword { get; set; } = string.Empty;
+    public string TenantiId { get; set; } = string.Empty;
 
     protected string GenerateTemporaryPassword(int length = 12)
     {

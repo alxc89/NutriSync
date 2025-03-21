@@ -2,4 +2,6 @@
 
 public class CreateOrderDto
 {
+    public Guid NutritionistId { get; set; } = Guid.Empty;
+    public Guid ProductId { get; set; }
 }

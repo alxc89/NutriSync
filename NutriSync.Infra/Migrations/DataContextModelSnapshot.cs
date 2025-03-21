@@ -170,6 +170,13 @@ namespace NutriSync.Infra.Migrations
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NutritionistId");
@@ -204,9 +211,16 @@ namespace NutriSync.Infra.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -239,6 +253,13 @@ namespace NutriSync.Infra.Migrations
                     b.Property<string>("PortionSize")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -294,6 +315,13 @@ namespace NutriSync.Infra.Migrations
                         .HasColumnType("integer")
                         .HasDefaultValue(0);
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid?>("UserId")
                         .HasColumnType("uuid");
 
@@ -306,6 +334,84 @@ namespace NutriSync.Infra.Migrations
                         .IsUnique();
 
                     b.ToTable("Nutritionists", (string)null);
+                });
+
+            modelBuilder.Entity("NutriSync.Core.Entities.Order", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("NutritionistId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("NutritionistId1")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime?>("PaidAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("Status")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NutritionistId");
+
+                    b.HasIndex("NutritionistId1");
+
+                    b.ToTable("Orders", (string)null);
+                });
+
+            modelBuilder.Entity("NutriSync.Core.Entities.OrderItem", b =>
+                {
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("NutriSync.Core.Entities.Patient", b =>
@@ -354,6 +460,13 @@ namespace NutriSync.Infra.Migrations
                         .HasColumnType("integer")
                         .HasDefaultValue(0);
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
@@ -392,6 +505,13 @@ namespace NutriSync.Infra.Migrations
                     b.Property<Guid>("PatientId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<decimal>("WaistCm")
                         .HasColumnType("numeric");
 
@@ -405,6 +525,40 @@ namespace NutriSync.Infra.Migrations
                     b.ToTable("PatientMeasurement");
                 });
 
+            modelBuilder.Entity("NutriSync.Core.Entities.Product", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("character varying(300)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products", (string)null);
+                });
+
             modelBuilder.Entity("NutriSync.Core.Entities.UserBase", b =>
                 {
                     b.Property<Guid>("Id")
@@ -412,6 +566,13 @@ namespace NutriSync.Infra.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("TenantId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
@@ -466,6 +627,10 @@ namespace NutriSync.Infra.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("TemporaryPassword")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("TenantiId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -601,22 +766,18 @@ namespace NutriSync.Infra.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("City")
-                                .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)");
 
                             b1.Property<string>("State")
-                                .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("character varying(50)");
 
                             b1.Property<string>("Street")
-                                .IsRequired()
                                 .HasMaxLength(200)
                                 .HasColumnType("character varying(200)");
 
                             b1.Property<string>("ZipCode")
-                                .IsRequired()
                                 .HasMaxLength(20)
                                 .HasColumnType("character varying(20)");
 
@@ -634,6 +795,38 @@ namespace NutriSync.Infra.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("NutriSync.Core.Entities.Order", b =>
+                {
+                    b.HasOne("NutriSync.Core.Entities.Nutritionist", "Nutritionist")
+                        .WithMany()
+                        .HasForeignKey("NutritionistId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NutriSync.Core.Entities.Nutritionist", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("NutritionistId1");
+
+                    b.Navigation("Nutritionist");
+                });
+
+            modelBuilder.Entity("NutriSync.Core.Entities.OrderItem", b =>
+                {
+                    b.HasOne("NutriSync.Core.Entities.Order", "Order")
+                        .WithMany("Items")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("NutriSync.Core.Entities.Product", null)
+                        .WithMany("OrderItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+                });
+
             modelBuilder.Entity("NutriSync.Core.Entities.Patient", b =>
                 {
                     b.HasOne("NutriSync.Core.Entities.UserBase", "User")
@@ -648,22 +841,18 @@ namespace NutriSync.Infra.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("City")
-                                .IsRequired()
                                 .HasMaxLength(100)
                                 .HasColumnType("character varying(100)");
 
                             b1.Property<string>("State")
-                                .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("character varying(50)");
 
                             b1.Property<string>("Street")
-                                .IsRequired()
                                 .HasMaxLength(200)
                                 .HasColumnType("character varying(200)");
 
                             b1.Property<string>("ZipCode")
-                                .IsRequired()
                                 .HasMaxLength(20)
                                 .HasColumnType("character varying(20)");
 
@@ -702,6 +891,13 @@ namespace NutriSync.Infra.Migrations
                     b.Navigation("Appointments");
 
                     b.Navigation("MealPlans");
+
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("NutriSync.Core.Entities.Order", b =>
+                {
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("NutriSync.Core.Entities.Patient", b =>
@@ -711,6 +907,11 @@ namespace NutriSync.Infra.Migrations
                     b.Navigation("MealPlans");
 
                     b.Navigation("Measurements");
+                });
+
+            modelBuilder.Entity("NutriSync.Core.Entities.Product", b =>
+                {
+                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("NutriSync.Core.Entities.UserBase", b =>

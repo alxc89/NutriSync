@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NutriSync.Application.DTOs;
+using NutriSync.Application.Mappers;
+using NutriSync.Application.Services.Nutritionist;
 using NutriSync.Core.Interfaces;
 
 namespace NutriSync.API.Controllers;
@@ -15,18 +17,13 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
-    {
-        var result = await _authService.RegisterAsync(registerDto.Email, registerDto.Password);
-        if (!result) return BadRequest("Registration failed.");
-
-        return Ok("User registered successfully.");
-    }
-
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginDto model)
+    public async Task<IActionResult> Login([FromBody] LoginDto model,
+        [FromHeader(Name = "X-TenantId")] string tenantId)
     {
+        if (string.IsNullOrEmpty(tenantId))
+            return BadRequest("Tenant ID is required.");
+
         var token = await _authService.LoginAsync(model.Email, model.Password);
         if (token == null) return Unauthorized("Invalid credentials.");
 

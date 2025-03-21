@@ -2,7 +2,7 @@
 
 public interface IAuthService
 {
-    Task<bool> RegisterAsync(string email, string password);
-    Task<bool> CreateUserFromNutritionistAsync(Guid id);
+    Task<bool> CreateUserFromPatientAsync(string name, string email, string password);
+    Task<Guid> CreateUserFromNutritionistAsync(string email, string password);
     Task<string?> LoginAsync(string email, string password);
 }

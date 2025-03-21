@@ -9,7 +9,7 @@ public class NutritionistRepository(DataContext context) : INutritionistReposito
 {
     private readonly DataContext _context = context;
 
-    public async Task<Nutritionist> SaveAsync(Nutritionist nutritionist)
+    public async Task<bool> SaveAsync(Nutritionist nutritionist)
     {
         try
         {
@@ -17,7 +17,7 @@ public class NutritionistRepository(DataContext context) : INutritionistReposito
                 .Nutritionists
                 .AddAsync(nutritionist);
             await _context.SaveChangesAsync();
-            return nutritionist;
+            return true;
         }
         catch
         {

@@ -9,6 +9,8 @@ public class OrderItem : Entity
     public decimal UnitPrice { get; private set; }
     public decimal TotalPrice => Quantity * UnitPrice;
 
+    public Order Order { get; set; } = null!;
+
     private OrderItem() { }
 
     public OrderItem(Guid orderId, Guid productId, string description, int quantity, decimal unitPrice)

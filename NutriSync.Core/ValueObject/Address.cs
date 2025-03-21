@@ -1,13 +1,11 @@
 ﻿namespace NutriSync.Core.ValueObject;
 
-public class Address
+public record Address
 {
-    public string Street { get; } = string.Empty;
-    public string City { get; } = string.Empty;
-    public string State { get; } = string.Empty;
-    public string ZipCode { get; } = string.Empty;
+    protected Address()
+    {
 
-    private Address() { }
+    }
 
     public Address(string street, string city, string state, string zipCode)
     {
@@ -16,4 +14,9 @@ public class Address
         State = state;
         ZipCode = zipCode;
     }
+
+    public string Street { get; } = string.Empty;
+    public string City { get; } = string.Empty;
+    public string State { get; } = string.Empty;
+    public string ZipCode { get; } = string.Empty;
 }

@@ -6,12 +6,12 @@ namespace NutriSync.Core.Entities;
 
 public class Nutritionist : Entity
 {
-    protected Nutritionist()
+    private Nutritionist()
     {
 
     }
 
-    public Nutritionist(string name, string phone, string email, string document, string crn, DateTime birthDate, Gender gender, Address address)
+    public Nutritionist(string name, string phone, string email, string document, string crn, DateTime birthDate, Gender gender)
     {
         Name = name;
         Phone = phone;
@@ -20,7 +20,7 @@ public class Nutritionist : Entity
         Crn = crn;
         BirthDate = birthDate;
         Gender = gender;
-        Address = address;
+        TenantId = email;
     }
 
     public void Update(string name, string phone, string email, string crn, Address address)
@@ -56,4 +56,5 @@ public class Nutritionist : Entity
 
     public ICollection<MealPlan> MealPlans { get; set; } = [];
     public ICollection<Appointment> Appointments { get; set; } = [];
+    public ICollection<Order> Orders { get; set; } = [];
 }

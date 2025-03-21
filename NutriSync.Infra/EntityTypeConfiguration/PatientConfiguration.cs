@@ -47,10 +47,10 @@ public class PatientConfiguration : IEntityTypeConfiguration<Patient>
 
         builder.OwnsOne(n => n.Address, address =>
         {
-            address.Property(a => a.Street).IsRequired().HasMaxLength(200);
-            address.Property(a => a.City).IsRequired().HasMaxLength(100);
-            address.Property(a => a.State).IsRequired().HasMaxLength(50);
-            address.Property(a => a.ZipCode).IsRequired().HasMaxLength(20);
+            address.Property(a => a.Street).IsRequired(false).HasMaxLength(200);
+            address.Property(a => a.City).IsRequired(false).HasMaxLength(100);
+            address.Property(a => a.State).IsRequired(false).HasMaxLength(50);
+            address.Property(a => a.ZipCode).IsRequired(false).HasMaxLength(20);
         });
 
         builder

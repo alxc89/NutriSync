@@ -5,12 +5,12 @@ public class UserBase : Entity
 
     public UserBase()
     {
-        
+
     }
 
     private const string Valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     private const string Special = "!@#$%ˆ&*(){}[];";
-    
+
     public Nutritionist? Nutritionist { get; set; }
     public Patient? Patient { get; set; }
 

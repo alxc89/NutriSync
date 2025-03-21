@@ -18,12 +18,12 @@ public class NutritionistController(INutritionistService nutritionistService) : 
         return Ok(result.Data);
     }
 
-    [HttpPost()]
+    [HttpPost("create")]
     public async Task<IActionResult> Post([FromBody] CreateNutritionistDto createNutritionistDto)
     {
         var result = await _nutritionistService.CreateNutritionistAsync(createNutritionistDto);
-        if (result.Data == null) return BadRequest($"Erro: {result.Message}");
+        if (result?.Data == null) return BadRequest($"Erro: {result?.Message}");
 
-        return CreatedAtAction("Get", new { id = result.Data?.Id }, result.Data);
+        return Ok();
     }
 }

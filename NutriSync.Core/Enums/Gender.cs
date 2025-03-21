@@ -2,7 +2,16 @@
 
 public enum Gender
 {
+    /// <summary>
+    /// Homem
+    /// </summary>
     Male,
+    /// <summary>
+    /// Mulher
+    /// </summary>
     Female,
+    /// <summary>
+    /// Outros
+    /// </summary>
     Other
 }

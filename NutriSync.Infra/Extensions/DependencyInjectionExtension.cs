@@ -9,6 +9,8 @@ using NutriSync.Core.Interfaces.Repositories;
 using NutriSync.Infra.Context;
 using NutriSync.Infra.Identity.Auth;
 using NutriSync.Infra.Identity.Entities;
+using NutriSync.Infra.Identity.Interfaces;
+using NutriSync.Infra.Identity.Providers;
 using NutriSync.Infra.Repositories;
 
 namespace NutriSync.Infra.Extensions;
@@ -19,6 +21,10 @@ public static class DependencyInjectionExtension
         builder.Services.AddIdentity<User, IdentityRole<Guid>>()
             .AddEntityFrameworkStores<DataContext>()
             .AddDefaultTokenProviders();
+
+        builder.Services.AddHttpContextAccessor();
+        builder.Services.AddScoped<ITenantProvider, TenantProvider>();
+        //builder.Services.AddScoped<TenantProvider>();
 
         builder.Services.AddTransient<IAuthService, AuthService>();
 

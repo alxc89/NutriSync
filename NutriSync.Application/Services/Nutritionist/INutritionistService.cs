@@ -6,6 +6,6 @@ namespace NutriSync.Application.Services.Nutritionist;
 
 public interface INutritionistService
 {
-    Task<ServiceResponse<NutritionistView>> CreateNutritionistAsync(CreateNutritionistDto createNutritionistDto);
+    Task<ServiceResponse<bool>> CreateNutritionistAsync(CreateNutritionistDto createNutritionistDto);
     Task<ServiceResponse<NutritionistView>> GetNutritionistByIdAsync(Guid nutritionistId);
 }
